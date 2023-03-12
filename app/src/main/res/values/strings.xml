@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TV_Shows_MVVM</string>
+    <string name="tv_shows_most_popular">tv_shows_most_popular</string>
 </resources>
