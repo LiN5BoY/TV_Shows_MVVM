@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tv_shows_mvvm.R;
 import com.example.tv_shows_mvvm.databinding.ItemConstainerTvShowBinding;
+import com.example.tv_shows_mvvm.listeners.TVShowsListener;
 import com.example.tv_shows_mvvm.modles.TVShow;
 
 import java.util.List;
@@ -24,8 +25,13 @@ public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.TVShowVi
     //而findViewById()是用来获得具体控件的
     private LayoutInflater layoutInflater;
 
-    public TVShowsAdapter(List<TVShow> tvShows) {
+    private TVShowsListener tvShowsListener;
+
+
+
+    public TVShowsAdapter(List<TVShow> tvShows,TVShowsListener tvShowsListener) {
         this.tvShows = tvShows;
+        this.tvShowsListener = tvShowsListener;
     }
 
     @NonNull
@@ -51,7 +57,7 @@ public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.TVShowVi
         return tvShows.size();
     }
 
-    static class TVShowViewHolder extends RecyclerView.ViewHolder{
+     class TVShowViewHolder extends RecyclerView.ViewHolder{
 
         private ItemConstainerTvShowBinding itemConstainerTvShowBinding;
 
@@ -63,6 +69,8 @@ public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.TVShowVi
         public void bindTVshow(TVShow tvShow){
             itemConstainerTvShowBinding.setTvShow(tvShow);
             itemConstainerTvShowBinding.executePendingBindings();
+            //getRoot,返回根视图
+            itemConstainerTvShowBinding.getRoot().setOnClickListener(v -> tvShowsListener.onTVShowClicked(tvShow));
         }
     }
 

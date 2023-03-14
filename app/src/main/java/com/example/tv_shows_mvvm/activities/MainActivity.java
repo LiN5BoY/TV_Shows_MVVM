@@ -2,6 +2,7 @@ package com.example.tv_shows_mvvm.activities;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -14,13 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tv_shows_mvvm.R;
 import com.example.tv_shows_mvvm.adapters.TVShowsAdapter;
 import com.example.tv_shows_mvvm.databinding.ActivityMainBinding;
+import com.example.tv_shows_mvvm.listeners.TVShowsListener;
 import com.example.tv_shows_mvvm.modles.TVShow;
+import com.example.tv_shows_mvvm.modles.TVShowDetails;
 import com.example.tv_shows_mvvm.viewmodels.MostPopularTVShowsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TVShowsListener {
     private ActivityMainBinding activityMainBinding;
     private MostPopularTVShowsViewModel viewModel;
     private List<TVShow> tvShows = new ArrayList<>();
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         //RecyclerView 的Item宽或者高不会变。每一个Item添加或者删除都不会变。
         activityMainBinding.tvShowsRecyclerView.setHasFixedSize(true);
         viewModel = new ViewModelProvider(this).get(MostPopularTVShowsViewModel.class);
-        tvShowsAdapter = new TVShowsAdapter(tvShows);
+        tvShowsAdapter = new TVShowsAdapter(tvShows,this);
         activityMainBinding.tvShowsRecyclerView.setAdapter(tvShowsAdapter);
         activityMainBinding.tvShowsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -91,5 +94,20 @@ public class MainActivity extends AppCompatActivity {
                 activityMainBinding.setIsLoadingMore(true);
             }
         }
+    }
+
+
+    @Override
+    public void onTVShowClicked(TVShow tvShow) {
+        //跳转事件
+        Intent intent = new Intent(getApplicationContext(), TVShowDetailsActivity.class);
+        intent.putExtra("id",tvShow.getId());
+        intent.putExtra("name",tvShow.getName());
+        intent.putExtra("startDate",tvShow.getStartDate());
+        intent.putExtra("country",tvShow.getCountry());
+        intent.putExtra("network",tvShow.getNetwork());
+        intent.putExtra("status",tvShow.getStatus());
+        startActivity(intent);
+
     }
 }
