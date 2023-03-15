@@ -61,6 +61,7 @@ public class TVShowDetailsActivity extends AppCompatActivity {
         activityTvshowDetailsBinding.sliderViewPager.setVisibility(View.VISIBLE);
         activityTvshowDetailsBinding.viewFadingEdge.setVisibility(View.VISIBLE);
         setupSliderIndicators(sliderImages.length);
+        //registerOnPageChangeCallback()方法——设置页面改变时的回调
         activityTvshowDetailsBinding.sliderViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -97,6 +98,7 @@ public class TVShowDetailsActivity extends AppCompatActivity {
     }
 
     private void setCurrentSliderIndicator(int position) {
+        //getChildCount获得的layout布局下的子view数目。
         int childCount = activityTvshowDetailsBinding.layoutSliderIndicators.getChildCount();
         for (int i = 0; i < childCount; i++) {
             ImageView imageView = (ImageView) activityTvshowDetailsBinding.layoutSliderIndicators.getChildAt(i);
