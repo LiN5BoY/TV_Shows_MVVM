@@ -1,11 +1,15 @@
 package com.example.tv_shows_mvvm.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.tv_shows_mvvm.R;
@@ -30,6 +34,7 @@ public class TVShowDetailsActivity extends AppCompatActivity {
         getTVShowDetails();
     }
 
+    //实现
     private void getTVShowDetails(){
         activityTvshowDetailsBinding.setIsLoading(true);
         String tvShowId = String.valueOf(getIntent().getIntExtra("id",-1));
@@ -55,6 +60,33 @@ public class TVShowDetailsActivity extends AppCompatActivity {
         activityTvshowDetailsBinding.sliderViewPager.setAdapter(new ImageSliderAdapter(sliderImages));
         activityTvshowDetailsBinding.sliderViewPager.setVisibility(View.VISIBLE);
         activityTvshowDetailsBinding.viewFadingEdge.setVisibility(View.VISIBLE);
+        setupSliderIndicators(sliderImages.length);
+    }
+
+    private void setupSliderIndicators(int count){
+        //ImageView数组定义，大小为传入的length，即长度大小
+        ImageView[] indicators = new ImageView[count];
+        //LayoutParams翻译过来就是布局参数，子View通过LayoutParams告诉父容器（ViewGroup）应该如何放置自己。
+        // 从这个定义中也可以看出来LayoutParams与ViewGroup是息息相关的，因此脱离ViewGroup谈LayoutParams是没有意义的。
+        //事实上，每个ViewGroup的子类都有自己对应的LayoutParams类，
+        // 典型的如LinearLayout.LayoutParams和FrameLayout.LayoutParams等，可以看出来LayoutParams都是对应ViewGroup子类的内部类。
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                //第一个参数为宽的设置，第二个参数为高的设置.
+                ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.setMargins(8,0,8,0);
+        for(int i = 0;i < indicators.length ; i++){
+            //getApplicationContext()——获取当前应用的上下文环境。即当前应用所使用的的Application
+            indicators[i] = new ImageView(getApplicationContext());
+            indicators[i].setImageDrawable(ContextCompat.getDrawable(
+                    getApplicationContext(),
+                    R.drawable.background_slider_indicator_inactive
+            ));
+            indicators[i].setLayoutParams(layoutParams);
+            activityTvshowDetailsBinding.layoutSliderIndicators.addView(indicators[i]);
+        }
+        activityTvshowDetailsBinding.layoutSliderIndicators.setVisibility(View.VISIBLE);
+
     }
 
 }
