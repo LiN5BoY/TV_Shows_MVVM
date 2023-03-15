@@ -2,11 +2,13 @@ package com.example.tv_shows_mvvm.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -51,6 +53,30 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                                 tvShowsDetailsResponse.getTvShowDetails().getImage_path()
                         );
                         activityTvshowDetailsBinding.imageTVShow.setVisibility(View.VISIBLE);
+                        activityTvshowDetailsBinding.setDescription(
+                                String.valueOf(
+                                        HtmlCompat.fromHtml(
+                                                tvShowsDetailsResponse.getTvShowDetails().getDescription(),
+                                                HtmlCompat.FROM_HTML_MODE_LEGACY
+                                        )
+                                )
+                        );
+                        activityTvshowDetailsBinding.textDescription.setVisibility(View.VISIBLE);
+                        activityTvshowDetailsBinding.textReadMore.setVisibility(View.VISIBLE);
+                        //ReadMore触发事件，点击后增加当前TextView的最大显示行数，否则返回至一开始设定的4条
+                        //Ellipsize————textview中有个内容过长加省略号的属性
+                        activityTvshowDetailsBinding.textReadMore.setOnClickListener(v -> {
+                            if(activityTvshowDetailsBinding.textReadMore.getText().toString().equals("Read More")){
+                                activityTvshowDetailsBinding.textDescription.setMaxLines(Integer.MAX_VALUE);
+                                activityTvshowDetailsBinding.textDescription.setEllipsize(null);
+                                activityTvshowDetailsBinding.textReadMore.setText(R.string.read_less);
+                            }else{
+                                activityTvshowDetailsBinding.textDescription.setMaxLines(4);
+                                //(TextUtils.TruncateAt.END) 设置省略号在结尾
+                                activityTvshowDetailsBinding.textDescription.setEllipsize(TextUtils.TruncateAt.END);
+                                activityTvshowDetailsBinding.textReadMore.setText(R.string.read_more);
+                            }
+                        });
                         loadBasicTVShowDetails();
                     }
                 }
