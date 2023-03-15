@@ -128,9 +128,9 @@
             android:textColor="@color/colorTextOther"
             android:textSize="@dimen/_12ssp"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@id/TextName"
-            app:layout_constraintStart_toStartOf="@id/TextName"
-            app:layout_constraintTop_toBottomOf="@id/TextName"
+            app:layout_constraintEnd_toEndOf="@id/textName"
+            app:layout_constraintStart_toStartOf="@id/textName"
+            app:layout_constraintTop_toBottomOf="@id/textName"
             ></TextView>
 
         <TextView
@@ -146,8 +146,8 @@
             android:textColor="@android:color/holo_green_light"
             android:textSize="@dimen/_12ssp"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@id/TextName"
-            app:layout_constraintStart_toStartOf="@id/TextName"
+            app:layout_constraintEnd_toEndOf="@id/textName"
+            app:layout_constraintStart_toStartOf="@id/textName"
             app:layout_constraintTop_toBottomOf="@id/textNetworkCountry"
             ></TextView>
 
@@ -164,8 +164,8 @@
             android:textColor="@color/colorTextSecondary"
             android:textSize="@dimen/_12ssp"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@id/TextName"
-            app:layout_constraintStart_toStartOf="@id/TextName"
+            app:layout_constraintEnd_toEndOf="@id/textName"
+            app:layout_constraintStart_toStartOf="@id/textName"
             app:layout_constraintTop_toBottomOf="@id/textStatus"
             ></TextView>
 
