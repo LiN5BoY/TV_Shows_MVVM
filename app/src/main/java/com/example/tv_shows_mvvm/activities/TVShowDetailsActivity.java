@@ -51,6 +51,7 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                                 tvShowsDetailsResponse.getTvShowDetails().getImage_path()
                         );
                         activityTvshowDetailsBinding.imageTVShow.setVisibility(View.VISIBLE);
+                        loadBasicTVShowDetails();
                     }
                 }
         );
@@ -119,5 +120,20 @@ public class TVShowDetailsActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void loadBasicTVShowDetails(){
+        activityTvshowDetailsBinding.setTvShowName(getIntent().getStringExtra("name"));
+        activityTvshowDetailsBinding.setNetworkCountry(
+                getIntent().getStringExtra("network") + "(" +
+                        getIntent().getStringExtra("country") + ")"
+        );
+        activityTvshowDetailsBinding.setStatus(getIntent().getStringExtra("status"));
+        activityTvshowDetailsBinding.setStartedDate(getIntent().getStringExtra("startDate"));
+        activityTvshowDetailsBinding.textName.setVisibility(View.VISIBLE);
+        activityTvshowDetailsBinding.textNetworkCountry.setVisibility(View.VISIBLE);
+        activityTvshowDetailsBinding.textStatus.setVisibility(View.VISIBLE);
+        activityTvshowDetailsBinding.textStarted.setVisibility(View.VISIBLE);
+    }
+
 
 }

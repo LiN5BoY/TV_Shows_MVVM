@@ -13,6 +13,22 @@
             name="tvShowImageURL"
             type="String" />
 
+        <variable
+            name="tvShowName"
+            type="String" />
+
+        <variable
+            name="networkCountry"
+            type="String" />
+
+        <variable
+            name="status"
+            type="String" />
+
+        <variable
+            name="startedDate"
+            type="String" />
+
         <import type="android.view.View"></import>
 
     </data>
@@ -80,6 +96,78 @@
             app:layout_constraintTop_toBottomOf="@id/sliderViewPager"
             app:riv_corner_radius="@dimen/_6sdp"
             ></com.makeramen.roundedimageview.RoundedImageView>
+
+        <TextView
+            android:id="@+id/textName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/ubuntu_bold"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="@{tvShowName}"
+            android:textColor="@color/colorTextIcons"
+            android:textSize="@dimen/_14ssp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageTVShow"
+            app:layout_constraintBottom_toBottomOf="@id/sliderViewPager"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/textNetworkCountry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/ubuntu_regular"
+            android:includeFontPadding="false"
+            android:text="@{networkCountry}"
+            android:textColor="@color/colorTextOther"
+            android:textSize="@dimen/_12ssp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/TextName"
+            app:layout_constraintStart_toStartOf="@id/TextName"
+            app:layout_constraintTop_toBottomOf="@id/TextName"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/textStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/ubuntu_regular"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="@{status}"
+            android:textColor="@android:color/holo_green_light"
+            android:textSize="@dimen/_12ssp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/TextName"
+            app:layout_constraintStart_toStartOf="@id/TextName"
+            app:layout_constraintTop_toBottomOf="@id/textNetworkCountry"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/textStarted"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/ubuntu_regular"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text='@{"Started on: " + startedDate}'
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="@dimen/_12ssp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/TextName"
+            app:layout_constraintStart_toStartOf="@id/TextName"
+            app:layout_constraintTop_toBottomOf="@id/textStatus"
+            ></TextView>
 
         <ProgressBar
             android:layout_width="@dimen/_25sdp"
