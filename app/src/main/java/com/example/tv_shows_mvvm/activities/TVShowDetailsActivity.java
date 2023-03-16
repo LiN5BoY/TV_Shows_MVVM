@@ -19,6 +19,8 @@ import com.example.tv_shows_mvvm.adapters.ImageSliderAdapter;
 import com.example.tv_shows_mvvm.databinding.ActivityTvshowDetailsBinding;
 import com.example.tv_shows_mvvm.viewmodels.TVShowDetailsViewModel;
 
+import java.util.Locale;
+
 public class TVShowDetailsActivity extends AppCompatActivity {
 
     private ActivityTvshowDetailsBinding activityTvshowDetailsBinding;
@@ -77,6 +79,24 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                                 activityTvshowDetailsBinding.textReadMore.setText(R.string.read_more);
                             }
                         });
+                        //绑定对应的信息处理
+                        activityTvshowDetailsBinding.setRating(
+                                String.format(
+                                        //返回默认语言环境
+                                        Locale.getDefault(),
+                                        "%.2f",
+                                        Double.parseDouble(tvShowsDetailsResponse.getTvShowDetails().getRating())
+                                )
+                        );
+                        if(tvShowsDetailsResponse.getTvShowDetails().getGenres()!=null){
+                            activityTvshowDetailsBinding.setGenre(tvShowsDetailsResponse.getTvShowDetails().getGenres()[0]);
+                        }else{
+                            activityTvshowDetailsBinding.setGenre("N/A");
+                        }
+                        activityTvshowDetailsBinding.setRuntime(tvShowsDetailsResponse.getTvShowDetails().getRuntime() + "Min");
+                        activityTvshowDetailsBinding.viewDivider1.setVisibility(View.VISIBLE);
+                        activityTvshowDetailsBinding.layoutMisc.setVisibility(View.VISIBLE);
+                        activityTvshowDetailsBinding.viewDivider2.setVisibility(View.VISIBLE) ;
                         loadBasicTVShowDetails();
                     }
                 }
