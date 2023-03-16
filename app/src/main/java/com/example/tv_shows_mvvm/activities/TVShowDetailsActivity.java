@@ -187,6 +187,7 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                                         //一如既往的是，我们需要在性能和简捷两者之间找到一个有效的平衡点。
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
+                                        //Observable发送消息，而Subscriber则用于消费消息。
                                         .subscribe(() -> {
                                             activityTvshowDetailsBinding.imageWatchlist.setImageResource(R.drawable.ic_added);
                                             Toast.makeText(getApplicationContext(), "Added to watchlist", Toast.LENGTH_SHORT).show();
