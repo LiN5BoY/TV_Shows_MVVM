@@ -8,18 +8,25 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.tv_shows_mvvm.R;
+import com.example.tv_shows_mvvm.adapters.EpisodesAdapter;
 import com.example.tv_shows_mvvm.adapters.ImageSliderAdapter;
 import com.example.tv_shows_mvvm.databinding.ActivityTvshowDetailsBinding;
+import com.example.tv_shows_mvvm.databinding.LayoutEpisodesBottomSheetBinding;
 import com.example.tv_shows_mvvm.viewmodels.TVShowDetailsViewModel;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.Locale;
 
@@ -28,6 +35,10 @@ public class TVShowDetailsActivity extends AppCompatActivity {
     private ActivityTvshowDetailsBinding activityTvshowDetailsBinding;
     private TVShowDetailsViewModel tvShowDetailsViewModel;
 
+    //BottomSheet的效果是指从屏幕底部向上滑的效果，是MaterialDesign风格的一种,使用起来也很简单。
+    private BottomSheetDialog episodesBottomSheetDialog;
+
+    private LayoutEpisodesBottomSheetBinding layoutEpisodesBottomSheetBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +122,46 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                         });
                         activityTvshowDetailsBinding.buttonWebsite.setVisibility(View.VISIBLE);
                         activityTvshowDetailsBinding.buttonEpisodes.setVisibility(View.VISIBLE);
+                        activityTvshowDetailsBinding.buttonEpisodes.setOnClickListener(v -> {
+                            if(episodesBottomSheetDialog == null){
+                                episodesBottomSheetDialog = new BottomSheetDialog(TVShowDetailsActivity.this);
+                                //我们通常通过 DataBindingUtil.inflate(inflater, R.layout.demo, container, false) 来实例化的 DemoBinding 对象
+                                //即 ViewDataBinding。
+                                layoutEpisodesBottomSheetBinding = DataBindingUtil.inflate(
+                                        LayoutInflater.from(TVShowDetailsActivity.this),
+                                        R.layout.layout_episodes_bottom_sheet,
+                                        findViewById(R.id.episodesContainer),
+                                        false
+                                );
+                                //设置根视图
+                                episodesBottomSheetDialog.setContentView(layoutEpisodesBottomSheetBinding.getRoot());
+                                layoutEpisodesBottomSheetBinding.episodesRecylerView.setAdapter(
+                                        new EpisodesAdapter(tvShowsDetailsResponse.getTvShowDetails().getEpisodes())
+                                );
+                                layoutEpisodesBottomSheetBinding.textTitle.setText(
+                                        String.format("Episodes | %s",getIntent().getStringExtra("name"))
+                                );
+                                layoutEpisodesBottomSheetBinding.imageClose.setOnClickListener(v1 -> episodesBottomSheetDialog.dismiss());
+                            }
+
+                            //FrameLayout是最简单的布局了。所有放在布局里的控件，都按照层次堆叠在屏幕的左上角。后加进来的控件覆盖前面的控件。
+                            // ---- Optional section start ---- //
+                            FrameLayout frameLayout = episodesBottomSheetDialog.findViewById(
+                                    com.google.android.material.R.id.design_bottom_sheet
+                            );
+                            if(frameLayout != null){
+                                //BottomSheetBehavior使用(底部导航抽屉的实现)
+                                BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from(frameLayout);
+                                //setPeekHeight() 为其参数获取像素值
+                                //esources.getSystem().getDisplayMetrics().heightPixels 获取屏幕高度
+                                bottomSheetBehavior.setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels);
+                                //使用setState()方法从本机方法调用中更新UI
+                                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                            }
+                            // ---- Optional section end ---- //
+
+                            episodesBottomSheetDialog.show();
+                        });
                         loadBasicTVShowDetails();
                     }
                 }
