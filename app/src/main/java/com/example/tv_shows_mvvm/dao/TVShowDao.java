@@ -10,6 +10,7 @@ import com.example.tv_shows_mvvm.modles.TVShow;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 
 //Data Access Object，数据访问对象。使用DAO设计模式来封装数据库持久层所有操作(CRUD)
@@ -26,11 +27,11 @@ import io.reactivex.Flowable;
 //同时这个特性没有禁止的方法，只能通过取消订阅停止这个功能，对于有的框架这反而是一种累赘）
 public interface TVShowDao {
     //定义接口：（对于update，delete，insert，可以选择void类型，来简化调用代码，但缺少了执行结果判断）
-    @Query("SELECT * FROM tvShows")
+    @Query("SELECT * FROM tvshows")
     Flowable<List<TVShow>> getWatchlist();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Comparable addToWatchlist(TVShow tvShow);
+    Completable addToWatchlist(TVShow tvShow);
 
     @Delete
     void removeFromWatchlist(TVShow tvShow);
