@@ -31,6 +31,7 @@ public interface TVShowDao {
     Flowable<List<TVShow>> getWatchlist();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    //Completable. 只发射一条完成通知，或者一条异常通知，不能发射数据，其中完成通知与异常通知只能发射一个
     Completable addToWatchlist(TVShow tvShow);
 
     @Delete

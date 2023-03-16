@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.tv_shows_mvvm.R;
 import com.example.tv_shows_mvvm.adapters.EpisodesAdapter;
@@ -30,6 +31,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.Locale;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class TVShowDetailsActivity extends AppCompatActivity {
 
@@ -129,7 +134,7 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                         activityTvshowDetailsBinding.buttonWebsite.setVisibility(View.VISIBLE);
                         activityTvshowDetailsBinding.buttonEpisodes.setVisibility(View.VISIBLE);
                         activityTvshowDetailsBinding.buttonEpisodes.setOnClickListener(v -> {
-                            if(episodesBottomSheetDialog == null){
+                            if (episodesBottomSheetDialog == null) {
                                 episodesBottomSheetDialog = new BottomSheetDialog(TVShowDetailsActivity.this);
                                 //我们通常通过 DataBindingUtil.inflate(inflater, R.layout.demo, container, false) 来实例化的 DemoBinding 对象
                                 //即 ViewDataBinding。
@@ -145,7 +150,7 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                                         new EpisodesAdapter(tvShowsDetailsResponse.getTvShowDetails().getEpisodes())
                                 );
                                 layoutEpisodesBottomSheetBinding.textTitle.setText(
-                                        String.format("Episodes | %s",tvShow.getName())
+                                        String.format("Episodes | %s", tvShow.getName())
                                 );
                                 layoutEpisodesBottomSheetBinding.imageClose.setOnClickListener(v1 -> episodesBottomSheetDialog.dismiss());
                             }
@@ -155,7 +160,7 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                             FrameLayout frameLayout = episodesBottomSheetDialog.findViewById(
                                     com.google.android.material.R.id.design_bottom_sheet
                             );
-                            if(frameLayout != null){
+                            if (frameLayout != null) {
                                 //BottomSheetBehavior使用(底部导航抽屉的实现)
                                 BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from(frameLayout);
                                 //setPeekHeight() 为其参数获取像素值
@@ -168,6 +173,26 @@ public class TVShowDetailsActivity extends AppCompatActivity {
 
                             episodesBottomSheetDialog.show();
                         });
+
+
+                        //CompositeDisposable
+                        //一个disposable的容器，可以容纳多个disposable，添加和去除的复杂度为O(1)
+                        //add()，将disposable添加到容器中。
+                        activityTvshowDetailsBinding.imageWatchlist.setOnClickListener((v ->
+                                new CompositeDisposable().add(tvShowDetailsViewModel.addtoWatchlist(tvShow)
+                                        //使用RxJava的subscribeOn和observeOn可以方便地进行线程切换
+                                        //subscribeOn只是用来决定在哪个线程订阅，如果订阅之后没有切换线程操作，数据会在当前线程（订阅时的线程）发射
+                                        //Schedulers.io()调度器主要用于I/O操作
+                                        //它基于根据需要，增长或缩减来自适应的线程池。大量的I/O调度操作将创建许多个线程并占用内存。
+                                        //一如既往的是，我们需要在性能和简捷两者之间找到一个有效的平衡点。
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(() -> {
+                                            activityTvshowDetailsBinding.imageWatchlist.setImageResource(R.drawable.ic_added);
+                                            Toast.makeText(getApplicationContext(), "Added to watchlist", Toast.LENGTH_SHORT).show();
+                                        })
+                                )));
+                        activityTvshowDetailsBinding.imageWatchlist.setVisibility(View.VISIBLE);
                         loadBasicTVShowDetails();
                     }
                 }
