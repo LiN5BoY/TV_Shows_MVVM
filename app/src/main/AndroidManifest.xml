@@ -15,7 +15,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".WatchlistActivity"
+            android:name=".activities.WatchlistActivity"
             android:exported="false" />
         <activity
             android:name=".activities.TVShowDetailsActivity"
