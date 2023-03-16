@@ -1,8 +1,18 @@
 package com.example.tv_shows_mvvm.modles;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
-public class TVShow {
+import java.io.Serializable;
+
+//entity(实体类)的作用一般是和数据表做映射。
+@Entity(tableName = "tvShows")
+
+public class TVShow implements Serializable {
+
+    @PrimaryKey
 
     //使用@SerializedName注解,可以将自定义的字段名与json数据里面的字段对应起来;
 
@@ -53,5 +63,33 @@ public class TVShow {
 
     public String getThumbnail() {
         return thumbnail;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setNetwork(String network) {
+        this.network = network;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

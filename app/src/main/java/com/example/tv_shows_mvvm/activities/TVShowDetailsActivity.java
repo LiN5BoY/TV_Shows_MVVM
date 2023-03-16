@@ -24,6 +24,7 @@ import com.example.tv_shows_mvvm.adapters.EpisodesAdapter;
 import com.example.tv_shows_mvvm.adapters.ImageSliderAdapter;
 import com.example.tv_shows_mvvm.databinding.ActivityTvshowDetailsBinding;
 import com.example.tv_shows_mvvm.databinding.LayoutEpisodesBottomSheetBinding;
+import com.example.tv_shows_mvvm.modles.TVShow;
 import com.example.tv_shows_mvvm.viewmodels.TVShowDetailsViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -37,8 +38,9 @@ public class TVShowDetailsActivity extends AppCompatActivity {
 
     //BottomSheet的效果是指从屏幕底部向上滑的效果，是MaterialDesign风格的一种,使用起来也很简单。
     private BottomSheetDialog episodesBottomSheetDialog;
-
     private LayoutEpisodesBottomSheetBinding layoutEpisodesBottomSheetBinding;
+    private TVShow tvShow;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,13 +52,17 @@ public class TVShowDetailsActivity extends AppCompatActivity {
         tvShowDetailsViewModel = new ViewModelProvider(this).get(TVShowDetailsViewModel.class);
         //返回按钮事件处理
         activityTvshowDetailsBinding.imageBack.setOnClickListener(v -> onBackPressed());
+        //Android中的Activity传递数据时，为了方便往往将很多数据封装成对象，然后将整个对象传递过去。
+        //传对象的时候有两种情况，一种是实现Parcelable接口，一种是实现Serializable接口。
+        //可以用bundle putSerializable（Key，Object）传递数据或者直接用intent putExtrr（Key，Object）传递数据。
+        tvShow = (TVShow) getIntent().getSerializableExtra("tvShow");
         getTVShowDetails();
     }
 
     //实现
     private void getTVShowDetails() {
         activityTvshowDetailsBinding.setIsLoading(true);
-        String tvShowId = String.valueOf(getIntent().getIntExtra("id", -1));
+        String tvShowId = String.valueOf(tvShow.getId());
         tvShowDetailsViewModel.getTVShowDetails(tvShowId).observe(
                 this, tvShowsDetailsResponse -> {
                     activityTvshowDetailsBinding.setIsLoading(false);
@@ -139,7 +145,7 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                                         new EpisodesAdapter(tvShowsDetailsResponse.getTvShowDetails().getEpisodes())
                                 );
                                 layoutEpisodesBottomSheetBinding.textTitle.setText(
-                                        String.format("Episodes | %s",getIntent().getStringExtra("name"))
+                                        String.format("Episodes | %s",tvShow.getName())
                                 );
                                 layoutEpisodesBottomSheetBinding.imageClose.setOnClickListener(v1 -> episodesBottomSheetDialog.dismiss());
                             }
@@ -233,13 +239,13 @@ public class TVShowDetailsActivity extends AppCompatActivity {
     }
 
     private void loadBasicTVShowDetails() {
-        activityTvshowDetailsBinding.setTvShowName(getIntent().getStringExtra("name"));
+        activityTvshowDetailsBinding.setTvShowName(tvShow.getName());
         activityTvshowDetailsBinding.setNetworkCountry(
-                getIntent().getStringExtra("network") + "(" +
-                        getIntent().getStringExtra("country") + ")"
+                tvShow.getNetwork() + "(" +
+                        tvShow.getCountry() + ")"
         );
-        activityTvshowDetailsBinding.setStatus(getIntent().getStringExtra("status"));
-        activityTvshowDetailsBinding.setStartedDate(getIntent().getStringExtra("startDate"));
+        activityTvshowDetailsBinding.setStatus(tvShow.getStatus());
+        activityTvshowDetailsBinding.setStartedDate(tvShow.getStartDate());
         activityTvshowDetailsBinding.textName.setVisibility(View.VISIBLE);
         activityTvshowDetailsBinding.textNetworkCountry.setVisibility(View.VISIBLE);
         activityTvshowDetailsBinding.textStatus.setVisibility(View.VISIBLE);
