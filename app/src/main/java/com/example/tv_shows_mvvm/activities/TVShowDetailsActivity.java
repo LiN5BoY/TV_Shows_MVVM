@@ -7,6 +7,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -68,11 +70,11 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                         //ReadMore触发事件，点击后增加当前TextView的最大显示行数，否则返回至一开始设定的4条
                         //Ellipsize————textview中有个内容过长加省略号的属性
                         activityTvshowDetailsBinding.textReadMore.setOnClickListener(v -> {
-                            if(activityTvshowDetailsBinding.textReadMore.getText().toString().equals("Read More")){
+                            if (activityTvshowDetailsBinding.textReadMore.getText().toString().equals("Read More")) {
                                 activityTvshowDetailsBinding.textDescription.setMaxLines(Integer.MAX_VALUE);
                                 activityTvshowDetailsBinding.textDescription.setEllipsize(null);
                                 activityTvshowDetailsBinding.textReadMore.setText(R.string.read_less);
-                            }else{
+                            } else {
                                 activityTvshowDetailsBinding.textDescription.setMaxLines(4);
                                 //(TextUtils.TruncateAt.END) 设置省略号在结尾
                                 activityTvshowDetailsBinding.textDescription.setEllipsize(TextUtils.TruncateAt.END);
@@ -88,15 +90,27 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                                         Double.parseDouble(tvShowsDetailsResponse.getTvShowDetails().getRating())
                                 )
                         );
-                        if(tvShowsDetailsResponse.getTvShowDetails().getGenres()!=null){
+                        if (tvShowsDetailsResponse.getTvShowDetails().getGenres() != null) {
                             activityTvshowDetailsBinding.setGenre(tvShowsDetailsResponse.getTvShowDetails().getGenres()[0]);
-                        }else{
+                        } else {
                             activityTvshowDetailsBinding.setGenre("N/A");
                         }
-                        activityTvshowDetailsBinding.setRuntime(tvShowsDetailsResponse.getTvShowDetails().getRuntime() + "Min");
+                        activityTvshowDetailsBinding.setRuntime(tvShowsDetailsResponse.getTvShowDetails().getRuntime() + " Min");
                         activityTvshowDetailsBinding.viewDivider1.setVisibility(View.VISIBLE);
                         activityTvshowDetailsBinding.layoutMisc.setVisibility(View.VISIBLE);
-                        activityTvshowDetailsBinding.viewDivider2.setVisibility(View.VISIBLE) ;
+                        activityTvshowDetailsBinding.viewDivider2.setVisibility(View.VISIBLE);
+
+                        //设置点击事件，跳转到对应的url链接
+                        activityTvshowDetailsBinding.buttonWebsite.setOnClickListener(v -> {
+                            //ACTION_VIEW打开浏览器
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            //通过这个URI可以访问一个网络上或者是本地的资源
+                            //Uri.parse()就是将一个网址字符串解析成为一个Uri对象，就是我们所要操作的数据。
+                            intent.setData(Uri.parse(tvShowsDetailsResponse.getTvShowDetails().getUrl()));
+                            startActivity(intent);
+                        });
+                        activityTvshowDetailsBinding.buttonWebsite.setVisibility(View.VISIBLE);
+                        activityTvshowDetailsBinding.buttonEpisodes.setVisibility(View.VISIBLE);
                         loadBasicTVShowDetails();
                     }
                 }
@@ -167,7 +181,7 @@ public class TVShowDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void loadBasicTVShowDetails(){
+    private void loadBasicTVShowDetails() {
         activityTvshowDetailsBinding.setTvShowName(getIntent().getStringExtra("name"));
         activityTvshowDetailsBinding.setNetworkCountry(
                 getIntent().getStringExtra("network") + "(" +
