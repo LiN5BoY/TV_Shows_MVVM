@@ -4,21 +4,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.View;
 
 import com.example.tv_shows_mvvm.R;
+import com.example.tv_shows_mvvm.adapters.WatchlistAdapter;
 import com.example.tv_shows_mvvm.databinding.ActivityWatchlistBinding;
+import com.example.tv_shows_mvvm.listeners.WatchlistListener;
+import com.example.tv_shows_mvvm.modles.TVShow;
 import com.example.tv_shows_mvvm.viewmodels.WatchlistViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class WatchlistActivity extends AppCompatActivity {
+public class WatchlistActivity extends AppCompatActivity implements WatchlistListener {
 
     private ActivityWatchlistBinding activityWatchlistBinding;
     private WatchlistViewModel viewModel;
+    private WatchlistAdapter watchlistAdapter;
+    private List<TVShow> watchlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +40,7 @@ public class WatchlistActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(WatchlistViewModel.class);
         //返回事件
         activityWatchlistBinding.imageBack.setOnClickListener(v -> onBackPressed());
+        watchlist = new ArrayList<>();
     }
 
     private void loadWatchlist() {
@@ -46,7 +56,15 @@ public class WatchlistActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(tvShows -> {
                     activityWatchlistBinding.setIsLoading(false);
-                    Toast.makeText(getApplicationContext(), "Watchlist: " + tvShows.size(), Toast.LENGTH_SHORT).show();
+                    if(watchlist.size()>0){
+                        watchlist.clear();
+                    }
+                    //addAll()方法會將所有指定集合中的元素添加到此列表的結尾，因為它們是由指定collection的迭代器返回的順序。
+                    watchlist.addAll(tvShows);
+                    watchlistAdapter = new WatchlistAdapter(watchlist,this);
+                    activityWatchlistBinding.watchlistRecyclerView.setAdapter(watchlistAdapter);
+                    activityWatchlistBinding.watchlistRecyclerView.setVisibility(View.VISIBLE);
+                    compositeDisposable.dispose();
                 })
         );
     }
@@ -55,5 +73,17 @@ public class WatchlistActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadWatchlist();
+    }
+
+    @Override
+    public void onTVShowClicked(TVShow tvShow) {
+        Intent intent = new Intent(getApplicationContext(),TVShowDetailsActivity.class);
+        intent.putExtra("tvShow",tvShow);
+        startActivity(intent);
+    }
+
+    @Override
+    public void removeTVShowFromWatchlist(TVShow tvShow, int position) {
+
     }
 }
