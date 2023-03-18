@@ -48,6 +48,7 @@ public class SearchActivity extends AppCompatActivity implements TVShowsListener
         viewModel = new ViewModelProvider(this).get(SearchviewModel.class);
         tvShowsAdapter = new TVShowsAdapter(tvShows,this);
         activitySearchBinding.tvShowsRecyclerView.setAdapter(tvShowsAdapter);
+        //监听文字事件
         activitySearchBinding.inputSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
