@@ -45,6 +45,7 @@ public class TVShowDetailsActivity extends AppCompatActivity {
     private BottomSheetDialog episodesBottomSheetDialog;
     private LayoutEpisodesBottomSheetBinding layoutEpisodesBottomSheetBinding;
     private TVShow tvShow;
+    private Boolean isTVShowAvailableInWatchlist = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +62,26 @@ public class TVShowDetailsActivity extends AppCompatActivity {
         //传对象的时候有两种情况，一种是实现Parcelable接口，一种是实现Serializable接口。
         //可以用bundle putSerializable（Key，Object）传递数据或者直接用intent putExtrr（Key，Object）传递数据。
         tvShow = (TVShow) getIntent().getSerializableExtra("tvShow");
+        checkTVShowInWatchlist();
         getTVShowDetails();
     }
+
+    private void checkTVShowInWatchlist() {
+        //CompositeDisposable
+        //一个disposable的容器，可以容纳多个disposable，添加和去除的复杂度为O(1)
+        //add()，将disposable添加到容器中。
+        CompositeDisposable compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(tvShowDetailsViewModel.getTVShowFromWatchlist(String.valueOf(tvShow.getId()))
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(tvShow -> {
+                    isTVShowAvailableInWatchlist = true;
+                    activityTvshowDetailsBinding.imageWatchlist.setImageResource(R.drawable.ic_added);
+                    compositeDisposable.dispose();
+                })
+        );
+    }
+
 
     //实现
     private void getTVShowDetails() {
@@ -178,8 +197,22 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                         //CompositeDisposable
                         //一个disposable的容器，可以容纳多个disposable，添加和去除的复杂度为O(1)
                         //add()，将disposable添加到容器中。
-                        activityTvshowDetailsBinding.imageWatchlist.setOnClickListener((v ->
-                                new CompositeDisposable().add(tvShowDetailsViewModel.addtoWatchlist(tvShow)
+                        activityTvshowDetailsBinding.imageWatchlist.setOnClickListener(v -> {
+                            CompositeDisposable compositeDisposable = new CompositeDisposable();
+                            //如果当前页面已经在watchlist中，改变图片（已添加）
+                            if (isTVShowAvailableInWatchlist) {
+                                compositeDisposable.add(tvShowDetailsViewModel.removeTVShowFromWatchlist(tvShow)
+                                        .subscribeOn(Schedulers.computation())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(()->{
+                                            isTVShowAvailableInWatchlist = false;
+                                            activityTvshowDetailsBinding.imageWatchlist.setImageResource(R.drawable.ic_watchlist);
+                                            Toast.makeText(getApplicationContext(),"Removed from watchlist",Toast.LENGTH_SHORT).show();
+                                            compositeDisposable.dispose();
+                                        })
+                                );
+                            } else {
+                                compositeDisposable.add(tvShowDetailsViewModel.addtoWatchlist(tvShow)
                                         //使用RxJava的subscribeOn和observeOn可以方便地进行线程切换
                                         //subscribeOn只是用来决定在哪个线程订阅，如果订阅之后没有切换线程操作，数据会在当前线程（订阅时的线程）发射
                                         //Schedulers.io()调度器主要用于I/O操作
@@ -191,8 +224,13 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                                         .subscribe(() -> {
                                             activityTvshowDetailsBinding.imageWatchlist.setImageResource(R.drawable.ic_added);
                                             Toast.makeText(getApplicationContext(), "Added to watchlist", Toast.LENGTH_SHORT).show();
+                                            compositeDisposable.dispose();
                                         })
-                                )));
+                                );
+                            }
+
+
+                        });
                         activityTvshowDetailsBinding.imageWatchlist.setVisibility(View.VISIBLE);
                         loadBasicTVShowDetails();
                     }

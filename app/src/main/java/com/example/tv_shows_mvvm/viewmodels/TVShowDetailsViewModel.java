@@ -13,6 +13,7 @@ import com.example.tv_shows_mvvm.repositories.TVShowDetailsRepository;
 import com.example.tv_shows_mvvm.responses.TVShowsDetailsResponse;
 
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 
 //AndroidViewModel类是ViewModel的子类，与之相似，它们旨在存储和管理与UI相关的数据，负责准备和提供数据UI，并自动允许数据在配置更改后继续存在。
 //AndroidViewModel的唯一区别是它与应用程序上下文一起提供，如果您需要上下文来获取系统服务或有类似要求，这将很有帮助。
@@ -36,4 +37,13 @@ public class TVShowDetailsViewModel extends AndroidViewModel {
     public Completable addtoWatchlist(TVShow tvShow){
         return tvShowDatabase.tvShowDao().addToWatchlist(tvShow);
     }
+
+    public Flowable<TVShow> getTVShowFromWatchlist(String tvShowId){
+        return tvShowDatabase.tvShowDao().getTVShowFromWatchlist(tvShowId);
+    }
+
+    public Completable removeTVShowFromWatchlist(TVShow tvShow){
+        return tvShowDatabase.tvShowDao().removeFromWatchlist(tvShow);
+    }
+
 }
