@@ -6,7 +6,7 @@
 
         <variable
             name="tvShow"
-            type="com.example.tv_shows_mvvm.modles.TVShow" />
+            type="com.example.tv_shows_mvvm.models.TVShow" />
 
     </data>
 

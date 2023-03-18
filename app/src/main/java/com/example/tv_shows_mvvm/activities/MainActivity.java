@@ -1,11 +1,8 @@
 package com.example.tv_shows_mvvm.activities;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,8 +14,7 @@ import com.example.tv_shows_mvvm.R;
 import com.example.tv_shows_mvvm.adapters.TVShowsAdapter;
 import com.example.tv_shows_mvvm.databinding.ActivityMainBinding;
 import com.example.tv_shows_mvvm.listeners.TVShowsListener;
-import com.example.tv_shows_mvvm.modles.TVShow;
-import com.example.tv_shows_mvvm.modles.TVShowDetails;
+import com.example.tv_shows_mvvm.models.TVShow;
 import com.example.tv_shows_mvvm.viewmodels.MostPopularTVShowsViewModel;
 
 import java.util.ArrayList;

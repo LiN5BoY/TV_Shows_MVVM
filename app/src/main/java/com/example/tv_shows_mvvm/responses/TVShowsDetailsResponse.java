@@ -1,6 +1,6 @@
 package com.example.tv_shows_mvvm.responses;
 
-import com.example.tv_shows_mvvm.modles.TVShowDetails;
+import com.example.tv_shows_mvvm.models.TVShowDetails;
 import com.google.gson.annotations.SerializedName;
 
 public class TVShowsDetailsResponse {

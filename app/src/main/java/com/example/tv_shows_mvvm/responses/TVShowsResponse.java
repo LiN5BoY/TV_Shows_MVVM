@@ -1,6 +1,6 @@
 package com.example.tv_shows_mvvm.responses;
 
-import com.example.tv_shows_mvvm.modles.TVShow;
+import com.example.tv_shows_mvvm.models.TVShow;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

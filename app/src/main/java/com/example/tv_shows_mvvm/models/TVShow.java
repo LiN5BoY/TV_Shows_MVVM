@@ -1,4 +1,4 @@
-package com.example.tv_shows_mvvm.modles;
+package com.example.tv_shows_mvvm.models;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

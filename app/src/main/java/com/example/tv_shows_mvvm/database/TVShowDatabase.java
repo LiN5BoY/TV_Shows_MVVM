@@ -10,7 +10,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.tv_shows_mvvm.dao.TVShowDao;
-import com.example.tv_shows_mvvm.modles.TVShow;
+import com.example.tv_shows_mvvm.models.TVShow;
 
 //@Database 注解的类必须是扩展 RoomDatabase 的抽象类；
 //包含具有 0 个参数且返回使用 @Dao 注释的类的抽象方法；

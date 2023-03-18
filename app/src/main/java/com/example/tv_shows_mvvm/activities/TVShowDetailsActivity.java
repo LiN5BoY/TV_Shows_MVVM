@@ -25,7 +25,7 @@ import com.example.tv_shows_mvvm.adapters.EpisodesAdapter;
 import com.example.tv_shows_mvvm.adapters.ImageSliderAdapter;
 import com.example.tv_shows_mvvm.databinding.ActivityTvshowDetailsBinding;
 import com.example.tv_shows_mvvm.databinding.LayoutEpisodesBottomSheetBinding;
-import com.example.tv_shows_mvvm.modles.TVShow;
+import com.example.tv_shows_mvvm.models.TVShow;
 import com.example.tv_shows_mvvm.viewmodels.TVShowDetailsViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;

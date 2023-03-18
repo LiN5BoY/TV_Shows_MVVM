@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 
 
 import com.example.tv_shows_mvvm.database.TVShowDatabase;
-import com.example.tv_shows_mvvm.modles.TVShow;
+import com.example.tv_shows_mvvm.models.TVShow;
 import com.example.tv_shows_mvvm.repositories.TVShowDetailsRepository;
 import com.example.tv_shows_mvvm.responses.TVShowsDetailsResponse;
 

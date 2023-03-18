@@ -1,4 +1,4 @@
-package com.example.tv_shows_mvvm.modles;
+package com.example.tv_shows_mvvm.models;
 
 import com.google.gson.annotations.SerializedName;
 

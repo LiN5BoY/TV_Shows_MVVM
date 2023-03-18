@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.example.tv_shows_mvvm.modles.TVShow;
+import com.example.tv_shows_mvvm.models.TVShow;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import io.reactivex.Flowable;
 //同时这个特性没有禁止的方法，只能通过取消订阅停止这个功能，对于有的框架这反而是一种累赘）
 public interface TVShowDao {
     //定义接口：（对于update，delete，insert，可以选择void类型，来简化调用代码，但缺少了执行结果判断）
-    @Query("SELECT * FROM tvshows")
+    @Query("SELECT * FROM tvShows")
     Flowable<List<TVShow>> getWatchlist();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

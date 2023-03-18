@@ -9,9 +9,10 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tv_shows_mvvm.R;
+
 import com.example.tv_shows_mvvm.databinding.ItemConstainerTvShowBinding;
 import com.example.tv_shows_mvvm.listeners.WatchlistListener;
-import com.example.tv_shows_mvvm.modles.TVShow;
+import com.example.tv_shows_mvvm.models.TVShow;
 
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TVSh
             itemConstainerTvShowBinding.executePendingBindings();
             //getRoot,返回根视图
             itemConstainerTvShowBinding.getRoot().setOnClickListener(v -> watchlistListener.onTVShowClicked(tvShow));
-            itemConstainerTvShowBinding.imageDelete.setOnClickListener(v -> watchlistListener.removeTVShowFromWatchlist(tvShow,getAdapterPosition()));
+            itemConstainerTvShowBinding.imageDelete.setOnClickListener(view -> watchlistListener.removeTVShowFromWatchlist(tvShow,getAdapterPosition()));
             itemConstainerTvShowBinding.imageDelete.setVisibility(View.VISIBLE);
         }
     }

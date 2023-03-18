@@ -68,19 +68,15 @@
             android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layoutHeader">
+            app:layout_constraintTop_toBottomOf="@id/layoutHeader" />
 
-            <ProgressBar
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:visibility="@{isLoading ? View.VISIBLE : View.GONE, default = gone}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutHeader"
-                ></ProgressBar>
-
-        </androidx.recyclerview.widget.RecyclerView>
-
+        <ProgressBar
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:visibility="@{isLoading ? View.VISIBLE : View.GONE, default = gone}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutHeader" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

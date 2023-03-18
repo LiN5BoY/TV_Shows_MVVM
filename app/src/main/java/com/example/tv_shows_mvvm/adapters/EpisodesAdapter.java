@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tv_shows_mvvm.R;
 import com.example.tv_shows_mvvm.databinding.ItemContainerEpisodeBinding;
-import com.example.tv_shows_mvvm.modles.Episode;
+import com.example.tv_shows_mvvm.models.Episode;
 
 import java.util.List;
 

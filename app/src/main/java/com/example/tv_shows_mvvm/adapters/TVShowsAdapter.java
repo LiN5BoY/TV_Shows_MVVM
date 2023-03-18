@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tv_shows_mvvm.R;
 import com.example.tv_shows_mvvm.databinding.ItemConstainerTvShowBinding;
 import com.example.tv_shows_mvvm.listeners.TVShowsListener;
-import com.example.tv_shows_mvvm.modles.TVShow;
+import com.example.tv_shows_mvvm.models.TVShow;
 
 import java.util.List;
 

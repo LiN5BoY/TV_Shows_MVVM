@@ -5,13 +5,14 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.tv_shows_mvvm.activities.WatchlistActivity;
+
 import com.example.tv_shows_mvvm.database.TVShowDatabase;
-import com.example.tv_shows_mvvm.modles.TVShow;
+import com.example.tv_shows_mvvm.models.TVShow;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
+
 
 public class WatchlistViewModel extends AndroidViewModel {
 
