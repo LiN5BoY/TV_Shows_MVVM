@@ -14,6 +14,7 @@ import com.example.tv_shows_mvvm.adapters.WatchlistAdapter;
 import com.example.tv_shows_mvvm.databinding.ActivityWatchlistBinding;
 import com.example.tv_shows_mvvm.listeners.WatchlistListener;
 import com.example.tv_shows_mvvm.models.TVShow;
+import com.example.tv_shows_mvvm.utilities.TempDataHolder;
 import com.example.tv_shows_mvvm.viewmodels.WatchlistViewModel;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class WatchlistActivity extends AppCompatActivity implements WatchlistLis
         //返回事件
         activityWatchlistBinding.imageBack.setOnClickListener(v -> onBackPressed());
         watchlist = new ArrayList<>();
+        loadWatchlist();
     }
 
     private void loadWatchlist() {
@@ -76,6 +78,10 @@ public class WatchlistActivity extends AppCompatActivity implements WatchlistLis
     @Override
     protected void onResume() {
         super.onResume();
+        if(TempDataHolder.IS_WATCHLIST_UPDATED){
+            loadWatchlist();;
+            TempDataHolder.IS_WATCHLIST_UPDATED = false;
+        }
         loadWatchlist();
     }
 
