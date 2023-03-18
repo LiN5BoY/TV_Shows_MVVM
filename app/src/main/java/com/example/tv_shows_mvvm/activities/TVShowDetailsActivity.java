@@ -26,6 +26,7 @@ import com.example.tv_shows_mvvm.adapters.ImageSliderAdapter;
 import com.example.tv_shows_mvvm.databinding.ActivityTvshowDetailsBinding;
 import com.example.tv_shows_mvvm.databinding.LayoutEpisodesBottomSheetBinding;
 import com.example.tv_shows_mvvm.models.TVShow;
+import com.example.tv_shows_mvvm.utilities.TempDataHolder;
 import com.example.tv_shows_mvvm.viewmodels.TVShowDetailsViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -206,6 +207,7 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe(()->{
                                             isTVShowAvailableInWatchlist = false;
+                                            TempDataHolder.IS_WATCHLIST_UPDATED = true;
                                             activityTvshowDetailsBinding.imageWatchlist.setImageResource(R.drawable.ic_watchlist);
                                             Toast.makeText(getApplicationContext(),"Removed from watchlist",Toast.LENGTH_SHORT).show();
                                             compositeDisposable.dispose();
@@ -222,6 +224,7 @@ public class TVShowDetailsActivity extends AppCompatActivity {
                                         .observeOn(AndroidSchedulers.mainThread())
                                         //Observable发送消息，而Subscriber则用于消费消息。
                                         .subscribe(() -> {
+                                            TempDataHolder.IS_WATCHLIST_UPDATED = true;
                                             activityTvshowDetailsBinding.imageWatchlist.setImageResource(R.drawable.ic_added);
                                             Toast.makeText(getApplicationContext(), "Added to watchlist", Toast.LENGTH_SHORT).show();
                                             compositeDisposable.dispose();
